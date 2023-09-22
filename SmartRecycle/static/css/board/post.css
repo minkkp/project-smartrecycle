@@ -1,0 +1,116 @@
+*{
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+body{
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    overflow:hidden; 
+    background-color: #F0F7FF;
+}
+
+a{
+    font-size: 16px;
+    text-decoration: none;
+}
+
+input[type="text"]::placeholder {
+    text-align: center;
+}
+
+textarea::placeholder {
+	text-align: center;
+    vertical-align:middle;
+    line-height: 230px;
+}
+
+.wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+  
+.post-wrapper{
+    width: 40%;
+    height: 515px;
+    margin-top: 7%;
+    padding: 2%;
+    background: white;
+    border: 1px solid gray;
+    border-radius: 10px;
+
+    box-shadow: 0px 2px 2px gray, 0px -2px 2px gray, -2px 0px 2px gray, 2px 0px 2px gray;
+}
+
+.post-wrapper > h2{
+    font-size: 28px;
+    font-weight: bold;
+    color: #2DB400;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.title{
+	width:100%;
+}
+
+.title input{
+	width: 100%;
+	height: 40px;
+    font-size: 15px;
+	border : 1px solid black;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+
+.content{            
+    width:100%;
+    margin-top: 5px;
+}
+
+.content textarea {
+    width: 100%;
+    height: 280px;
+    font-size: 15px;
+    border : 1px solid black;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    resize: none;
+}
+
+#post-form > input[type="submit"]{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #2DB400;
+    margin-top: 20px;
+}
+  
+.submit{
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.submit input[type="submit"]{
+    width: 250px;
+    height: 40px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #2DB400;
+    border-radius: 10px;
+}
+
+.submit input[type="submit"]:hover{
+    background: black;
+}
+
+.etc-wrapper{
+    text-align: center;
+    margin-top: 8px;
+}

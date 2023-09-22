@@ -1,0 +1,82 @@
+{% extends 'base_nav.html' %}
+
+{% load static %}
+{% block content %}
+
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">{{ message }}</div>
+{% endfor %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/detection/result.css' %}">
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+<div class="wrap">
+    <div class="loader">
+        <i class='bx bx-loader bx-spin'></i>
+    </div>
+    <div class="result-wrapper">
+        <div class="select-wrap">
+            <form action="{% url 'detection:scan' %}" method="post"> 
+                {% csrf_token %}
+                <input class="scanBtn" type="submit" value="카메라 스캔">
+            </form>
+
+            <form name="upload" action="{% url 'detection:upload' %}" method="post" enctype="multipart/form-data"> 
+                {% csrf_token %}
+                <input class="fileBtn" type="file" name="image" accept="image/*" id="file" onchange="upload_submit(); loading();">
+                <label for="file">사진 가져오기</label>
+            </form>
+        </div>
+
+        <hr>
+
+        <div class="display-wrap">
+            {% if upload %}
+                <img src="{{upload.img_file.url}}">
+                <div id="info">
+                    <p>재활용 가능 폐기물은 <span id="possible_cnt"></span> 입니다</p>
+                    <p id="possible_list"></p>
+                    <hr>
+                    <p>재활용 불가 폐기물은 <span id="impossible_cnt"></span> 입니다</p>
+                    <p id="impossible_list"></p>
+                </div>
+            {% endif %}   
+        </div>
+
+        <hr>
+        
+        <div class="recycle-wrap">       
+            {% if request.user.is_authenticated %}
+                <button class="linkBtn" onclick="recycle_url();">
+                    <div class="hover-link1"><img class="img1" src="https://cdn.icon-icons.com/icons2/1094/PNG/512/recycle_78478.png">우리동네 쓰레기 배출방법은?</div>
+                    <div class="hover-link2"><img class="img1" src="https://cdn.icon-icons.com/icons2/1094/PNG/512/recycle_78478.png"><span class="user_url"></span></div>
+                </button>
+                <button class="mapBtn" id="recycle_map" onclick="location.href ='{% url 'detection:map' %}'">
+                    <div class="hover-map1"><img class="img2" src="https://cdn.icon-icons.com/icons2/2444/PNG/512/location_map_pin_mark_icon_148685.png">우리동네 재활용센터는?</div>
+                    <div class="hover-map2"><img class="img2" src="https://cdn.icon-icons.com/icons2/2444/PNG/512/location_map_pin_mark_icon_148685.png"><span class="user_url"></span></div>
+                </button>     
+                <input type="hidden" id="hidden_text" value={{request.user.user_area}}>
+            {% else %}
+                <button class="linkBtn" onclick="recycle_url();">
+                    <div class="hover-link1"><img class="img1" src="https://cdn.icon-icons.com/icons2/1094/PNG/512/recycle_78478.png">우리동네 쓰레기 배출방법은?</div>
+                    <div class="hover-link2"><img class="img1" src="https://cdn.icon-icons.com/icons2/1094/PNG/512/recycle_78478.png"><span class="anon_url"></span></div>
+                </button>
+                <button class="mapBtn" id="recycle_map" onclick="location.href ='{% url 'detection:map' %}'">
+                    <div class="hover-map1"><img class="img2" src="https://cdn.icon-icons.com/icons2/2444/PNG/512/location_map_pin_mark_icon_148685.png">우리동네 재활용센터는?</div>
+                    <div class="hover-map2"><img class="img2" src="https://cdn.icon-icons.com/icons2/2444/PNG/512/location_map_pin_mark_icon_148685.png"><span class="anon_url"></span></div>
+                </button>
+            {% endif %}      
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3351f0730731dce330130df0628f1cf1&libraries=services"></script>
+<script> 
+    let detect;
+    if(document.getElementById('info')){
+        detect = JSON.parse("{{detect|escapejs}}")
+    }
+</script>
+<script src="{% static 'js/detection/result.js' %}"></script>
+
+{% endblock %}

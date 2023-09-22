@@ -1,0 +1,54 @@
+{% extends 'base_accounts.html' %}
+{% load static %} 
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/accounts/signup.css' %}">
+
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center"role="alert">
+    {{ message }}
+  </div>
+{% endfor %}
+  
+<div class="wrap">
+  <div class="sign-wrapper">
+    <h2>회원가입</h2>
+    <form method="post" id="sign-form">
+      {% csrf_token %}
+      <input type="text" class="signup_input" name="user_id"  placeholder="아이디" required="">
+      <input type="password" class="signup_input" name="password_1"  placeholder="비밀번호" required="">
+      <input type="password" class="signup_input" name="password_2"  placeholder="비밀번호 확인" required="">
+      
+      <div class="select-label">
+
+        <div>시/도</div>
+        <div>군/구</div>
+
+      </div>
+
+      <div class="select-wrap">
+
+        <select class="signup_select" name="city" id="city" onchange="selected()">
+          {% for city in cities %}
+          <option value={{city}}>{{city}}</option>
+          {% endfor %}
+        </select>
+  
+        <select class="signup_select" name="district" id="district">
+          {% for district in default_district %}
+          <option value={{district}}>{{district}}</option>
+          {% endfor %}
+        </select>
+
+      </div> 
+      <input type="submit" value="가입하기">
+    </form>
+    <a href="{% url 'accounts:login' %}" >뒤로가기</a>
+  </div>
+</div>
+<script src="{% static 'js/accounts/signup.js' %}"></script>
+{% endblock %}
+
+
+
+

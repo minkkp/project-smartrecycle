@@ -1,0 +1,32 @@
+{% extends 'base_accounts.html' %}
+{% load static %} 
+{% block content %}
+
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center"role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/accounts/login.css' %}">
+
+<div class="wrap">
+    <div class="login-wrapper">
+
+        <h2>Smart Recycle</h2>
+        <form action="{% url 'accounts:login' %}" method="post" id="login-form">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="아이디" required="">
+            <input type="password" name="password" placeholder="비밀번호" required="">
+            <input type="submit" value="로그인">
+        </form>
+
+        <div class="etc-wrapper">      
+            <a href="{% url 'accounts:signup' %}" class="vertical-line" >회원가입</a>
+            &nbsp;ㅣ&nbsp;
+            <a href="{% url 'detection:result' %}" >비회원 로그인</a>
+        <div>
+
+    </div>
+</div>
+{% endblock %}

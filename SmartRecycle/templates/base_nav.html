@@ -1,0 +1,44 @@
+{% load django_bootstrap5 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="{% static 'js/base_nav.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_nav.css' %}">
+
+</head>
+<body>
+    <form name="form_logout" action="{% url 'accounts:logout' %}" method="POST"> 
+      {% csrf_token %}
+    </form> 
+
+    <div class="nav-wrap">
+      <nav class="mainNav">
+        <ul class="mainUl">  
+          <li><a class="nav-link main_font_color" aria-current="page" href="{% url 'detection:result' %}">분석하기</a></li>
+          <li><a class="nav-link main_font_color" href="{% url 'board:index' %}">Q&A게시판</a></li>
+  
+          {% if request.user.is_authenticated %}
+            <li><a class="nav-link main_font_color" href="{% url 'accounts:update' %}">마이페이지</a></li>
+            <li><a class="nav-link main_font_color" onclick="javascript:document.form_logout.submit();" href="#">로그아웃</a></li>
+          {% else %}
+            <li><a class="nav-link main_font_color" onclick="location.href='{% url 'accounts:login' %}'">로그인</a></li>
+          {% endif %} 
+
+        </ul>
+      </nav>
+    </div>   
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>

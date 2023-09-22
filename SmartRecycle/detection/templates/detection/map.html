@@ -1,0 +1,33 @@
+{% extends 'base_nav.html' %}
+
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/detection/map.css' %}">
+
+<div class="wrap">
+    <div class="map-wrapper">
+
+        <div class="region-wrap">
+            <img src="https://cdn-icons-png.flaticon.com/512/6388/6388034.png"><p id="map_region" class="map_region">{{context.region}}</p>
+        </div>
+
+        <div class="display-wrap">
+
+            <div id="menu">
+                <ul id="placesList"></ul>
+            </div>
+
+            <div id="map">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<input type="hidden" id="hidden_lat" value={{context.lat}}>
+<input type="hidden" id="hidden_long" value={{context.long}}>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3351f0730731dce330130df0628f1cf1&libraries=services"></script>    
+<script src="{% static 'js/detection/map.js' %}"></script>
+{% endblock %}

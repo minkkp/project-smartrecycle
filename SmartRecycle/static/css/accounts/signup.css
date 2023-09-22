@@ -1,0 +1,105 @@
+*{
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+body{
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    overflow:hidden; 
+    background-color: #F0F7FF;
+}
+
+a{
+    font-size: 17px;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+.wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.sign-wrapper{
+    width: 30%;
+    height: 530px;
+    margin-top: 9%;
+    padding: 5%;
+    background: white;
+    border: 1px solid gray;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    box-shadow: 0px 2px 3px gray, 0px -2px 3px gray, -2px 0px 3px gray, 2px 0px 3px gray;
+}
+
+.sign-wrapper > h2{
+    font-size: 32px;
+    font-weight: bold;
+    color: #2DB400;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.signup_select{
+    width: 49%;
+    height: 45px;
+    border : 2px solid black;
+    border-radius: 5px;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.select-label{
+    display: flex;
+    margin-bottom: 3px;
+}
+
+.select-label div{
+    width: 50%;
+    padding-left: 5px;
+}
+
+.select-wrap{
+    width: 100%;
+    text-align: center;
+}
+
+#sign-form > input{
+    width: 100%;
+    height: 48px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    background-color: #F8F8F8;
+}
+
+#sign-form > input[type="submit"]{
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #2DB400;
+    margin-top: 20px;
+}
+
+#sign-form > input[type="submit"]:hover{
+    background: black;
+}
+
+
+.etc-wrapper{
+    display: inline-block;
+}
+

@@ -1,0 +1,57 @@
+{% extends 'base_nav.html' %}
+{% load static %}
+{% block content %}
+
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">{{ message }}</div>
+{% endfor %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/accounts/update.css' %}">
+
+<form name="form_delete" action="{% url 'accounts:delete' %}" method="POST">
+    {% csrf_token %}  
+</form>
+
+<div class="wrap">
+    <div class="update-wrapper">
+    
+        <h2>회원정보 수정</h2>
+        <form action="{% url 'accounts:update' %}" method="POST" id="update-form">
+            {% csrf_token %}
+            <input class="update_input" type="password" name="origin_password" placeholder="현재 비밀번호">
+            <input class="update_input" type="password" name="new_password" placeholder = "변경할 비밀번호">
+            <input class="update_input" type="password" name="confirm_password" placeholder = "변경할 비밀번호 확인">
+
+            <div class="select-label">
+                <div>시/도</div>
+                <div>군/구</div>
+            </div>
+
+            <div class="select-wrap">
+
+                <select class="update_select" name="city" id="city" onchange="selected()">
+                    <option value={{ city }}>{{ city }}</option>
+                    {% for i in cities %}
+                        {% if i != city %}<option value="{{ i }}">{{ i }}</option>{% endif %}
+                    {% endfor %}
+                </select>
+
+                <select class="update_select" name="district" id="district">
+                    <option value={{ district }}>{{ district }}</option>
+                </select>
+
+            </div> 
+
+            <hr>
+
+            <div class="etc-wrapper">      
+                <input type="submit" class="btn btn-primary update_button" onclick="javascript:document.form.submit();" value="수정하기">
+                <input type="button" class="btn btn-danger update_button" value="회원탈퇴" onclick="del()">         
+            <div>
+        </form>
+
+    </div>
+</div>
+
+<script src="{% static 'js/accounts/update.js' %}"></script>
+{% endblock %}

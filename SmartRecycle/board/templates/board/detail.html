@@ -1,0 +1,119 @@
+{% extends 'base_nav.html' %}
+{% load static %}
+{% block content %}
+
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">{{ message }}</div>
+{% endfor %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/board/detail.css' %}">
+
+<form name="form_delete" action="{% url 'board:delete' board.pk %}" method="POST">
+    {% csrf_token %}  
+</form>
+
+<div class="wrap">
+    <div class="detail-wrapper">
+        <div class="header">
+
+            <div class="info">
+                <span>작성자 : </span>
+                <span style="font-weight: bold">{{ board.qna_title }}</span><br>
+                <span>작성일 : </span>
+                <span style="font-weight: bold" >{{ board.qna_content }}</span> 										
+            </div>
+
+            <div class="infoBtn">
+                {% if user_id == board.user_id %}
+                <button class="btn btn-primary" onclick="location.href='{% url 'board:update' board.pk%}'">수정</button>
+                <button class="btn btn-danger" onclick="del()" type="submit">삭제</button>
+                {% endif %}				
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr class="table-primary">
+                    <th class="title">{{ board.qna_content }}</th>
+                </tr>
+            </thead>				
+            <tr>	
+                <td class="content">{{ board.qna_content }}</td>
+            </tr>
+        </table>
+
+        <table class="table">
+            <tbody>
+                {% for comments in page_obj %}
+                    <tr>
+                        <td style="text-align:left">
+                            <img style="width:15px; height:15px" src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png">
+                            <span style="font-size:25; font-weight:bold">{{ comments.user_id }}</span><span style="font-size:1px;">&nbsp;|&nbsp;{{comments.com_date|date:'Y-m-d H:i:s' }}</span>
+                            {% if user_id == comments.user_id %}
+                                <form style="display:inline;" action="{% url 'board:del_com' board.pk comments.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" name="delete" class="btn btn-secondary delComment">삭제</button>             
+                                </form>                                        
+                            {% endif %}                                        
+                            <br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{{ comments.com_comment }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <ul class="pagination justify-content-center" style="display:flex">
+            <!-- 이전페이지 -->
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?&page={{ page_obj.previous_page_number }}">이전</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                </li>
+            {% endif %}
+        
+            <!-- 페이지리스트 -->
+            {% for page_number in page_obj.paginator.page_range %}
+                {% if page_number == page_obj.number %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        
+            <!-- 다음페이지 -->
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?&page={{ page_obj.next_page_number }}">다음</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div class="commentRegWrap">
+            <form action="{% url 'board:comment' board.pk %}" method="POST">
+                {% csrf_token %}
+                <input class="commentRegContent"  type="text" id="id_title" name="content"  placeholder="댓글을 남겨보세요" maxlength="35" required="required">
+                <input class="commentRegBtn" type="submit" value="등록" >            
+            </form>
+        </div>
+
+
+        <div class="etc-wrapper">      
+            <a a href="{% url 'board:index' %}">뒤로가기</a>   
+        <div>
+
+    </div>
+</div>
+<script src="{% static 'js/board/detail.js' %}"></script>
+{% endblock %}
