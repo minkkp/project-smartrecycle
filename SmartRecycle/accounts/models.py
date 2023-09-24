@@ -25,9 +25,11 @@ class UserManager(BaseUserManager):
         return user 
     
 class User(AbstractBaseUser):    
+    # 유저 생성일
     user_date = models.DateTimeField(auto_now_add=True,null=True)    
+    # 유저 아이디 / user_pw = AbstractBaseuser에서 기본 제공    
     user_id = models.CharField(primary_key=True,max_length=15, null=False, blank=False, unique=True)
-    # user_pw = AbstractBaseuser에서 기본 제공    
+    # 유저의 지역정보
     user_area = models.CharField(primary_key=False,max_length=15, null=True, blank=True, unique=False)
 
     is_active = models.BooleanField(default=True)    
@@ -43,9 +45,9 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
-    
     def has_perm(self, perm, obj=None):
         return True
-
     def has_module_perms(self, app_label):
         return True
+    
+    

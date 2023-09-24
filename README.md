@@ -1,191 +1,290 @@
 # 프로젝트 소개
 
-- 시각장애인들은 일반책 접근이 어려움 (전체 출판도서중 점자도서 출간비율 0.2%)
-- 글자를 읽지 못하고 듣기만 할 수 있는 노년층 및 문맹인이 소수 남아있음
-- 사용자가 카메라로 글자를 스캔하면 음성으로 출력해주어 이러한 어려움을 해결하고자 함
+- 1인가구 증가, 비대면 수요 증가에 따라 생활 폐기물이 증가하고 있음
+- 생활폐기물이 증가함에 따라 폐기물 처리단가 상승, 처리시설 부족등의 문제가 발생
+- 단독주택의 경우 분리배출이 잘 되지 않아 폐기물중 35%가 선별되지 않고 소각되고 있음
+- 재활용이 가능한 4개 생활폐기물(플라스틱, 금속, 유리, 종이) 재활용률을 1%만 높여도 연간 639억 원 절약
 
-<br/>
+<br>
+
+#### # 딥러닝 이미지 분석을 통해 재활용품 선별을 도와주는 서비스를 제공하여 이러한 문제들을 예방하고자 함
+
+<br>
 
 # 프로젝트 정보
 
 #### # 개발환경
 
-<img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=OpenCV&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white"> 
+<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/opencv-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white"> 
 
-<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"><img src="https://img.shields.io/badge/kakao map-FFCD00?style=for-the-badge&logo=kakao&logoColor=black"><img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
 
-<br/>
+<br>
 
 #### # 개발기간
 
-2023.08.10 ~ 2023.09.14
+2023.03.14 ~ 2023.04.21
 
-<br/>
+<br>
+
+#### # 참여인원 : 3명
+
+- 담당역할
+  - 딥러닝 모델 탐색 및 선정
+  - Django 프레임워크를 활용한 웹서비스 구현
+  - AWS를 통한 서버 배포
+
+<br>
+
+#### # 디렉토리 요약
+
+```
+[SmartRecycle]
+...
+├── smart_recycle / "프로젝트 설정 (앱 설정, DB연결, URL 관리 ...)"
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   ├── asgi.py
+│   ...
+│
+├── accounts / "계정 관리 App"
+│   ├── models.py
+│   ├── views.py
+│   ├── templates
+│   ...
+│   
+├── board / "게시판 구현 App"
+│   ├── models.py
+│   ├── views.py
+│   ├── templates
+│   ...
+│
+├── detection / "이미지 분석 App"
+│   ├── models.py
+│   ├── views.py
+│   ├── templates
+│   ...
+│
+├── manage.py / "프로젝트 관리 (서버실행, 앱생성 , DB 적용...)"
+│
+├── static / "이미지, CSS, JavaScript, 딥러닝모델 저장"
+│
+├── templates / "Base HTML파일 관리"
+│
+└── db.sqlite / "Django 데이터베이스 관리(ORM)
+...
+```
+
+<br>
+
+#### # 실행방법
+
+```
+1. SmartRecycle 디렉토리 접근
+2. 터미널에서 bash명령어 입력(python manage.py runserver)
+```
+
+<br>
 
 # 서비스 소개
 
 #### # 핵심기능
 
-> [얼굴인식 회원가입 및 로그인](#-얼굴인식-회원가입-및-로그인)
+> [딥러닝 모델을 활용한 재활용품 선별](#-딥러닝-모델을-활용한-재활용품-선별)
 >
-> [카메라 화면의 글자를 추출하여 음성 출력](#-카메라-화면의-글자를-추출하여-음성-출력)
+> [주변 재활용센터 안내](#-주변-재활용센터-안내)
 >
-> [시각장애인들을 위한 음성제어](#-시각장애인들을-위한-음성제어)
+> [지역별 재활용 안내](#-지역별-재활용-안내)
 
-<br/>
+<br>
 
 #### # 부가기능
 
-> [CRUD기능을 적용한 회원관리 및 게시판](#-CRUD기능을-적용한-회원관리-및-게시판)
->
-> [SNS연동 회원가입 및 로그인](#-SNS연동-회원가입-및-로그인)
->
-> [다국어 처리](#-다국어-처리)
+> [회원관리 및 게시판 (Django ORM)](#-회원관리-및-게시판)
 
-<br/>
+<br>
 
-#### # 얼굴인식 회원가입 및 로그인
+#### # 딥러닝 모델을 활용한 재활용품 선별
 
 ***
 
-- 회원가입 요청시 회원별 고유번호, 얼굴정보를 학습한 모델을 생성
+```
+딥러닝 모델을 사용하여 재활용품의 정확한 분리 배출을 도와주기 위함
+```
 
-- 생성된 모델을 이진변환하여 DB에 BLOB(Binary Large Object) 형식으로 저장
+- 실시간 스캔
 
-  ><img src="https://user-images.githubusercontent.com/119550105/268550285-4fe9d690-d29b-4d90-b5be-a3376aa95d25.gif" style="float:left; border :1px solid black;" width="70%">
+  ><img src="https://user-images.githubusercontent.com/119550105/270147568-d3c4df60-9f91-486a-8c67-30a684b00fef.gif" width="80%">
   >
-  ><img src="https://user-images.githubusercontent.com/119550105/268183193-7db1e34e-8ec4-4860-87fb-a8dea324c997.png" style=" border:1px solid black; float:left;" width="70%">
-
-<br/>
-
-- 로그인 요청시 회원별로 저장된 얼굴정보 모델을 DB에서 호출
-
-- 얼굴 일치여부를 정확도로 산출하여 로그인 여부 결정
-
-  ><img src="https://user-images.githubusercontent.com/119550105/268550314-f367c7ca-5ad9-49fa-aa52-e017f2c76a2f.gif" style="float:left; border :1px solid black;" width="70%">
+  ><hr width="80%">
   >
-  ><img src="https://user-images.githubusercontent.com/119550105/268549011-44edb241-d85d-43f5-b031-f432fba90d9a.png" style="float:left; border :1px solid black;" width="70%" height="450px">
+  ><img src="https://user-images.githubusercontent.com/119550105/270147570-da4a41d7-d753-4c69-bbc0-78b0f4d7d608.gif" width="80%">
 
-<br/>
+<br>
 
-#### # 카메라 화면의 글자를 추출하여 음성 출력
+- 사진 가져오기
+
+  ><img src="https://user-images.githubusercontent.com/119550105/270147383-d7a13e22-66f5-4de9-bcac-d62e67b31755.gif" width="80%">
+
+<br>
+
+- 딥러닝 모델 요약
+
+  >```
+  >모델명 : YOLO v8m
+  >선정 이유 : 이미지 분석 속도가 빨라 실시간 객체 탐지에 최적화
+  >학습 이미지 : 30000 ~ 40000개 (Ai Hub 데이터셋 위주 사용)
+  >학습 카테고리 : 15개 [의류, 전자제품, 플라스틱, 도기류, 비닐, 스티로폼, 유리 ...]
+  >전처리 과정 : 해상도 일치화(Resize) -> 대비 향상(equalizeHist) -> 증강 처리(Augmentation)
+  >```
+  >
+
+<br>
+
+- 주요 코드
+
+  >- 실시간 스캔
+  >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270147922-6e7a866e-de7f-4823-a7d5-fdbcda5c0e71.png" width="80%">
+  >
+  ><hr width="80%">
+  >
+  >- 사진 가져오기
+  >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270148052-e953cce5-6636-4eb3-8ae3-96fb24720152.png" width="80%">
+  >
+  ><hr width="80%">
+  >
+  >- 전처리 함수 (크기 조절 -> 대비 향상 -> 선명도 향상)
+  >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270148176-ca1447c8-f134-479d-a81b-516afeab024c.png" width="80%">
+  >
+  ><hr width="80%">
+  >
+  >- 탐지영역 그리기
+  >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270148665-562e0955-9174-41db-bd5c-593338f761b3.png" width="80%">
+
+<br>
+
+#### # 주변 재활용센터 안내
+
+<hr>
+
+````
+가구, 가전제품 등 재활용이 가능한 대형 폐기물의 처리를 돕기 위함
+````
+
+- 회원의 거주지역을 기반으로 안내
+
+  ><img src="https://user-images.githubusercontent.com/119550105/270147371-2ab2a6ea-2128-4fdb-938d-9ffdfd5bd7d0.gif" width="80%">
+
+<br>
+
+- 비회원 로그인시 사용자 위치정보를 수집하여 안내
+
+  ><img src="https://user-images.githubusercontent.com/119550105/270147379-3499e791-48bb-4133-a795-3af2d47dfa21.gif" width="80%">
+
+<br>
+
+- 주요 코드
+
+  >- 회원정보로 저장된 행정구역의 중심 좌표 추출(Kakao API)
+  >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270147850-3c9c5457-c3b4-4976-9c52-274f18e8a350.png" width="80%">
+  >
+  ><hr width="80%">
+  >
+  >- 비로그인시 사용자의 위치좌표 수집(JavaScript)
+  >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270147875-1e50e2e7-7d1a-4987-8e05-156c19bf93b3.png" width="80%">
+
+<br>
+
+#### # 지역별 재활용 안내
 
 ---
 
-- 시연영상
+```
+지역별로 상이한 재활용 방법에 대해서 안내하고자 함
+```
 
-  >https://github.com/minkkp/project-magicreader/assets/119550105/fc404299-9f3f-47f0-94b2-4e2f7a1d2c6b
+- 회원의 거주지역을 기반으로 안내
 
-<br/>
+  ><img src="https://user-images.githubusercontent.com/119550105/270147379-3499e791-48bb-4133-a795-3af2d47dfa21.gif" width="80%">
 
-- 글자 추출을 위해 학습된 Tessearct 문자인식 모델 사용
+<br>
 
-  ><img src="https://user-images.githubusercontent.com/119550105/268566415-f86598f0-f27e-43d6-a936-55bb1653dbcc.png" style="float:left; border :1px solid black;" width="80%" >
+- 비로그인시 사용자 위치정보를 수집하여 안내
 
-- 종이 외곽선 검출을 위한 이미지 전처리
+  ><img src="https://user-images.githubusercontent.com/119550105/270147382-8f8816fe-0851-4701-830e-a3bdf1ee02b3.gif" width="80%">
 
-  ><img src="https://user-images.githubusercontent.com/119550105/268666017-aa4a155c-bbce-4997-8e8d-b8d4eb5dfd98.png" style="float:left; border :1px solid black;" width="80%" >
+<br>
+
+- 주요 코드
+
+  >- 사용자의 위치정보와 지역별 재활용 안내 사이트 매칭(JavaScript)
   >
-  ><img src="https://user-images.githubusercontent.com/119550105/268567318-1587a324-c528-4c2f-a4b2-454188a03a7f.png" style="float:left; border :1px solid black;" width="80%" >
-
-- 이미지 외곽선 정보를 추출하여 원근변환
-
-  > <img src="https://user-images.githubusercontent.com/119550105/268666125-f929519d-df96-40d8-8e9d-b783a1325dc0.png" style="float:left; border :1px solid black;" width="80%" >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270148738-175d91d1-eeba-418a-9c7b-425b93e6cd4b.png" width="80%">
   >
-  > <img src="https://user-images.githubusercontent.com/119550105/268567599-de81398e-ac94-4a9a-b583-356be96081ed.png" style="float:left; border :1px solid black;" width="80%" >
+  ><hr width="80%">
+  >
+  >- URL정보를 저장하는 딕셔너리(JavaScript)
+  >
+  >  <img src="https://user-images.githubusercontent.com/119550105/270148792-e5a5313b-f3e7-4e7e-a29e-ebed9d818d45.png" width="80%">
 
-<br/>
+<br>
 
-#### # 시각장애인들을 위한 음성제어
+#### # 회원관리 및 게시판
 
----
+<hr>
 
-- 시연영상
+```
+Django ORM 사용하여 CRUD기능 구현
+```
+
+- 회원관리
 
   >- 회원가입
   >
-  >https://github.com/minkkp/project-magicreader/assets/119550105/bbd32e4e-ccf8-485f-a345-5e753ae198fd
+  ><img src="https://user-images.githubusercontent.com/119550105/270149343-4bf64d3c-63ac-412b-b6e2-d44c4b60b1aa.png" width="80%">
   >
-  ><br/>
+  ><hr width="80%">
   >
-  >- 로그인
+  >- 회원정보 수정
   >
-  >https://github.com/minkkp/project-magicreader/assets/119550105/7ccef5d0-1db1-4ac6-8933-6179f7da795e
+  >  <img src="https://user-images.githubusercontent.com/119550105/270149356-dd6ea7d6-f889-4f4b-895c-ce9c518ec2fd.png" width="80%">
   >
-  ><br/>
+  ><hr width="80%">
   >
-  >- 글자인식
+  >- models.py
   >
-  >https://github.com/minkkp/project-magicreader/assets/119550105/a5949cde-7c76-4531-a6a7-64714d7a1182
+  >  <img src="https://user-images.githubusercontent.com/119550105/270149586-a5f8768b-9f4d-46d6-b050-6f5d5834718d.png" width="80%">
 
-<br/>
+<br>
 
-- 음성인식 객체 설정 (JavaScript)
+- 게시판
 
-  ><img src="https://user-images.githubusercontent.com/119550105/268675578-c4a197b4-413e-41c3-b6c1-04b396ea3ecc.png" style="float:left; border :1px solid black;" width="60%" >
-
-- 음성인식 결과 분기처리
-
-  ><img src="https://user-images.githubusercontent.com/119550105/268679782-d49ff306-3e49-4d47-b507-d22530e5020d.png" style="float:left; border :1px solid black;" width="70%" >
+  >- 게시물 페이지
   >
-  ><img src="https://user-images.githubusercontent.com/119550105/268680815-e3d7cfa5-2ae8-4e9b-b74b-b3f69e9ef2f5.png" style="float:left; border :1px solid black;" width="70%" >
-
-<br/>
-
-#### # CRUD기능을 적용한 회원관리 및 게시판
-
-***
-
-- 회원가입 및 회원정보 수정
-
-  ><img src="https://user-images.githubusercontent.com/119550105/268429375-1d31e836-16bc-4166-a6cf-1455ff32bfe9.png" style="border:1px solid black; float:left;" width="60%">
+  >  <img src="https://user-images.githubusercontent.com/119550105/270149389-c8077515-2df6-4dd9-8173-963159691996.png" width="80%">
   >
-  ><br/>
-  ><img src="https://user-images.githubusercontent.com/119550105/268552248-b506c85a-ed7e-4abd-b7a5-7b01f21724a6.png" style="border:1px solid black;" width="60%" >
-
-  <br/>
-
-- 비밀번호 분실시 임시 비밀번호를 메일 발송
-
-  ><img src="https://user-images.githubusercontent.com/119550105/268551275-658e10d6-b322-458a-8d74-c74c52a419d8.png" style="border:1px solid black; float:left;" width="70%">
+  ><hr width="80%">
   >
-  ><br/>
+  >- 상세보기 / 댓글
   >
-  ><img src="https://user-images.githubusercontent.com/119550105/268551020-94117179-561c-40d3-9f11-4feff38dd845.png" style="border:1px solid black; float:left;" width="70%">
-
-  <br/>
-
-- 게시물 및 댓글기능
-
-  ><img src="https://user-images.githubusercontent.com/119550105/268553650-e9dc7cb9-8281-47b3-bc24-b7b0bae4d1c9.png" style="border:1px solid black; float:left;" width="85%">
+  >  <img src="https://user-images.githubusercontent.com/119550105/270149535-6a4b1aba-05cb-4d23-bb80-9cca6d308b42.png" width="80%">
   >
-  ><img src="https://user-images.githubusercontent.com/119550105/268553671-0596433b-b044-4264-94ac-b6da8f451b37.png" style="border:1px solid black; float:left;" width="85%">
+  ><hr width="80%">
+  >
+  >- models.py
+  >
+  ><img src="https://user-images.githubusercontent.com/119550105/270149650-fbd98f1c-c813-4f75-9b25-94440bf713bb.png" width="80%">
 
-#### # SNS연동 회원가입 및 로그인
-
----
-
-- Naver, Google API 활용
-
-- AccessToken를 통한 로그인
-
-  ><img src="https://user-images.githubusercontent.com/119550105/268553496-81aebcdc-9015-4502-bb4a-0e372f432cd4.gif" style="border:1px solid black; float:left;" width="90%">
-
-
-
-#### # 다국어 처리
-
-***
-
-- ResourceBundleMessageSource 사용하여 국가별 메시지 로드
-
-  ><img src="https://user-images.githubusercontent.com/119550105/268189821-adc805b6-941f-4fdf-ad56-bfbf3bc14fa3.gif" style="border:1px solid black; float:left;" width="95%">
-
-<br/>
+<br>
 
 # 향후 계획
 
 - 접근성을 높이기 위한 모바일 환경 연동(Android, iOS)
-- 얼굴인식 서비스 고도화를 위한 다양한 모델 테스트
-- 한글 인식률 향상을 위해 다양한 글꼴 학습 및 적용
-- 이미지 인식률 보장을 위한 전처리 과정 보강
+- 다양한 재활용품 분류를 위해 학습 카테고리 추가

@@ -1,19 +1,19 @@
 import cv2
 import sys
-import time
 import numpy as np
 import pygetwindow as gw
 import requests
 
 from json import dumps
 from django.shortcuts import render
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_POST,require_safe
+
 from django.contrib import messages
-from .models import *
 from ultralytics import YOLO
 from PIL import ImageDraw,ImageFont,Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from io import BytesIO
+from .models import *
 
 # 스캔 종료 조건
 scanning = True
@@ -24,7 +24,6 @@ def mouse_callback(event, x, y, flags, param):
         global scanning
         scanning=False
        
-
 # 임계값 기준에 따른 True False 적용
 def check_thr(pred):
     for index in range(len(pred[0].boxes.conf)):
@@ -40,7 +39,7 @@ def check_cls(pred):
     return check_detect
 
 # 이미지 전처리
-def pre(img):
+def pre(img):  
     # 가로 세로비율 유지한채 resize 
     h,w = img.shape[:2]
     ratio = w/h
@@ -49,13 +48,13 @@ def pre(img):
     # 이미지 대비 향상 
     eq_img = cv2.cvtColor(resized_img, cv2.COLOR_BGR2YUV)
     eq_img[:, :, 0] = cv2.equalizeHist(eq_img[:, :, 0])
-    eq_img = cv2.cvtColor(eq_img, cv2.COLOR_YUV2RGB)
+    eq_img = cv2.cvtColor(eq_img, cv2.COLOR_YUV2BGR)
 
     # 이미지 선명도 향상
     kernel = np.array([[0, -1, 0],[-1, 5, -1],[0, -1, 0]])
-    kernel_img = cv2.filter2D(resized_img, -1, kernel)
+    kernel_img = cv2.filter2D(eq_img, -1, kernel)
 
-    return kernel_img
+    return resized_img,kernel_img
 
 def plot(img,pred,mode):
     labels={0:'가구',1:'금속',2:'나무',3:'도기류',4:'비닐',5:'스티로폼',6:'유리',7:'의류',8:'자전거',9:'전자제품',10:'종이',11:'캔',12:'페트병',13:'플라스틱',14:'형광등'}
@@ -94,23 +93,33 @@ def plot(img,pred,mode):
 
         # 탐지영역 그리기
         if(len(pred[0])==0):
-            plot_img.text(xy=(x,y),text="탐지중.. 화면 터치시 종료됩니다",fill=(255,0,0),font=ImageFont.truetype("static/font/malgunbd.ttf",30),align='center',stroke_width=2,stroke_fill=(255,255,255))
+            plot_img.text(xy=(x,y),text="탐지중.. 화면 터치시 종료됩니다",fill=(255,0,0),
+            font=ImageFont.truetype("static/font/malgunbd.ttf",30),
+            align='center',stroke_width=2,stroke_fill=(255,255,255))
         else:
             for i,box in enumerate(pred[0].boxes.boxes):
+                # 정확도 산출
                 prob = int(pred[0].boxes.conf[i]*100)
+
+                # 탐지된 객체에 사각형 그리기
                 plot_img.rectangle((int(box[0]),int(box[1]),int(box[2]),int(box[3])),outline=(51,255,51),width=5)
-                plot_img.text(xy=(int(box[0]),int(box[1])-35),text=labels[int(pred[0].boxes.cls[i])]+" "+str(prob)+"%",fill=(255,0,0),font=ImageFont.truetype("static/font/malgunbd.ttf",30),align='center',stroke_width=2,stroke_fill=(255,255,255))
-                plot_img.text(xy=(x,10),text="탐지완료! 화면 터치시 종료됩니다",fill=(0,0,255),font=ImageFont.truetype("static/font/malgunbd.ttf",30),align='center',stroke_width=2,stroke_fill=(255,255,255))
+
+                # 탐지된 객체의 텍스트 설정 
+                plot_img.text(xy=(int(box[0]),int(box[1])-35),text=labels[int(pred[0].boxes.cls[i])]+" "+str(prob)+"%",fill=(255,0,0),
+                font=ImageFont.truetype("static/font/malgunbd.ttf",30),align='center',stroke_width=2,stroke_fill=(255,255,255))
+
+                plot_img.text(xy=(x,10),text="탐지완료! 화면 터치시 종료됩니다",fill=(0,0,255),
+                font=ImageFont.truetype("static/font/malgunbd.ttf",30),align='center',stroke_width=2,stroke_fill=(255,255,255))
         
         return np.array(pillow_image)
 
 # result view 
-@require_http_methods(['GET','POST'])
+@require_safe
 def result(request):
     return render(request,'detection/result.html')
 
 # 카메라 스캔 모드
-@require_http_methods(['GET','POST'])
+@require_POST
 def scan(request):
     # 윈도우 해상도 계산
     active_window = gw.getActiveWindow()
@@ -121,7 +130,7 @@ def scan(request):
 
     # 카메라 호출
     cap = cv2.VideoCapture(0)
-    pre_img = None
+    rsz_img = None 
     pred = None
 
     # 종료 조건
@@ -129,22 +138,23 @@ def scan(request):
 
     if not cap.isOpened():
         messages.warning(request,'카메라 장치를 인식할 수 없습니다!')
+        return render(request,'detection/result.html')    
     else: 
         while scanning:
             # 카메라의 화면을 mat형식으로 가져옴
             ret, frame = cap.read()
 
             # 이미지 전처리
-            pre_img = pre(frame)
+            rsz_img,pre_img = pre(frame)
 
             # 이미지 가로 세로 추출
             height, width, _ = pre_img.shape
 
-            # 이미지 추론 (임계값 0.5 설정)
-            pred = model.predict(pre_img,show=False,conf=0.8)
+            # 이미지 추론 (임계값 0.7 설정)
+            pred = model.predict(pre_img,show=False,conf=0.7)
 
-            # 추론 결과를 frame에 저장
-            frame = plot(pre_img,pred,1)
+            # 객체 탐지 결과를 그려서 frame에 저장
+            frame = plot(rsz_img,pred,1)
             
             # 출력화면 설정
             cv2.imshow("Smart Recycle",frame)
@@ -161,10 +171,13 @@ def scan(request):
         cv2.destroyAllWindows()
         cap.release()
 
+        # 이미지 출력을 위해 BGR 픽셀에서 RGB픽셀로 변환
+        res_img = cv2.cvtColor(rsz_img,cv2.COLOR_BGR2RGB)
+
         # 추론정보 DB저장
         upload = Upload( 
             user_id = request.user,
-            img_file = plot(pre_img,pred,0),
+            img_file = plot(res_img,pred,0),
             threshold=check_thr(pred)
         )
     upload.save()   
@@ -173,7 +186,7 @@ def scan(request):
     return render(request,'detection/result.html',context)    
 
 # 사진 가져오기 모드
-@require_http_methods(['GET','POST'])
+@require_POST
 def upload(request):
     if request.method=='POST':    
         # 업로드된 이미지 파일 로드
@@ -183,7 +196,7 @@ def upload(request):
         origin_img = cv2.imdecode(np.fromstring(uploaded_image.read(), np.uint8),cv2.IMREAD_COLOR)
 
         # 이미지 전처리 함수 호출
-        pre_img = pre(origin_img)
+        rsz_img,pre_img = pre(origin_img)
 
         # 학습모델 로드
         model = YOLO('static/model/v8m_best.pt')
@@ -191,10 +204,13 @@ def upload(request):
         # 이미지 추론 (임계값 0.8 설정)
         pred = model.predict(pre_img,conf=0.8)
 
+        # 출력을 위해 BGR형식에서 RGB형식으로 변환
+        res_img = cv2.cvtColor(rsz_img,cv2.COLOR_BGR2RGB)
+
         # 추론정보 DB저장
         upload = Upload( 
             user_id = request.user,
-            img_file = plot(pre_img,pred,0),
+            img_file = plot(res_img,pred,0),
             threshold=check_thr(pred)
         )
 
@@ -203,8 +219,8 @@ def upload(request):
     context={'upload':upload,'detect':dumps(check_cls(pred))}
     return render(request,'detection/result.html',context) 
 
-# 주변 재활용센터 참기
-@require_http_methods(['GET','POST'])
+# 주변 재활용센터 찾기
+@require_safe
 def map(request):
     # 로그인 상태에서는 유저의 행정구역 중심좌표로 검색
     if request.user.is_authenticated:
@@ -228,3 +244,5 @@ def map(request):
             context = {"long":location[0],"lat":location[1],"region":region}
             return render(request,'detection/map.html',{'context': context})
     return render(request,'detection/map.html')
+
+

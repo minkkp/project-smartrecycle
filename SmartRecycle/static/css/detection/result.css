@@ -174,3 +174,8 @@ body{
     margin: -40px 0 0 -40px;
     color: #fff;
   }
+
+hr{
+    width: 100%;
+    background-color: #F0F7FF;
+}

@@ -339,7 +339,7 @@ if(document.getElementById('info')){
             possible_list +="#형광등 "
             break;
         }
-        if((i>=0 && i<=3) || i>=7 && i<=9){
+        if((i>=0 && i<=3) || i>=8 && i<=9){
           impossible_cnt+=1;
         }else{
           possible_cnt+=1;
@@ -384,6 +384,14 @@ if(document.getElementById("hidden_text")){
   })
 }
 
+// 사용자가 위치 권한이 없는 경우
+var gps_check = document.getElementsByClassName("anon_url")
+if(gps_check[0].textContent==""){
+  gps_check[0].textContent = "위치 권한을 허용해주세요!";
+  gps_check[1].textContent = "위치 권한을 허용해주세요!";
+}
+
+
 window.onpageshow = function(event) {
   if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
       location.reload()
@@ -421,21 +429,29 @@ function upload_submit() {
 
 // 재활용 배출방법 안내, 버튼과 url 매칭
 function recycle_url(){
+
+  // 윈도우 크기 조절
   var popupX = (window.screen.width / 2) - (1024 / 2);
   var popupY= (window.screen.height / 2) - (768 / 2);
 
+  // 로그인시 회원정보로 url 매칭
   if(document.getElementById("hidden_text")){
       region = document.getElementById("hidden_text").value.split('/')
-      window.open(recycle_info[region[0]][region[1]],'','left='+popupX+', top='+popupY+', width=1024, height=768, status=no, menubar=no, toolbar=no, resizable=no');
+      window.open(recycle_info[region[0]][region[1]],'','left='+popupX+', top='+popupY+
+      ', width=1024, height=768, status=no, menubar=no, toolbar=no, resizable=no');
+
+  // 비로그인시 사용자의 현재위치를 수집, 행정구역으로 변환후 url 매칭
   }else{
       var geocoder = new kakao.maps.services.Geocoder();
       navigator.geolocation.getCurrentPosition((position) => {   
           geocoder.coord2RegionCode(position.coords.longitude,position.coords.latitude,function(result, status){
               if (status === kakao.maps.services.Status.OK) {               
                   region = result[0].address_name.split(' ')
-                  window.open(recycle_info[region[0]][region[1]],'','left='+popupX+', top='+popupY+', width=1024, height=768, status=no, menubar=no, toolbar=no, resizable=no');
+                  window.open(recycle_info[region[0]][region[1]],'','left='+popupX+', top='+popupY+
+                  ', width=1024, height=768, status=no, menubar=no, toolbar=no, resizable=no');
               }
           });     
       })
+    }
   }
-}
+
