@@ -217,7 +217,7 @@
 
 - 회원의 거주지역을 기반으로 안내
 
-  ><img src="https://user-images.githubusercontent.com/119550105/270147379-3499e791-48bb-4133-a795-3af2d47dfa21.gif" width="80%">
+  ><img src="https://user-images.githubusercontent.com/119550105/270855013-2648a709-1926-46d3-a7b4-1b2231bdcaa1.gif" width="80%">
 
 <br>
 
