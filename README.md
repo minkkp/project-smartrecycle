@@ -119,6 +119,7 @@
   >
   ><hr width="80%">
   >
+  >
   ><img src="https://user-images.githubusercontent.com/119550105/270147570-da4a41d7-d753-4c69-bbc0-78b0f4d7d608.gif" width="80%">
 
 <br>
@@ -138,7 +139,6 @@
   >학습 카테고리 : 15개 [의류, 전자제품, 플라스틱, 도기류, 비닐, 스티로폼, 유리 ...]
   >전처리 과정 : 해상도 일치화(Resize) -> 대비 향상(equalizeHist) -> 증강 처리(Augmentation)
   >```
-  >
 
 <br>
 
@@ -146,31 +146,35 @@
 
   >- 실시간 스캔
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270147922-6e7a866e-de7f-4823-a7d5-fdbcda5c0e71.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270147922-6e7a866e-de7f-4823-a7d5-fdbcda5c0e71.png" width="80%">
   >
   ><hr width="80%">
+  >
   >
   >- 사진 가져오기
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270148052-e953cce5-6636-4eb3-8ae3-96fb24720152.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270148052-e953cce5-6636-4eb3-8ae3-96fb24720152.png" width="80%">
   >
   ><hr width="80%">
+  >
   >
   >- 전처리 함수 (크기 조절 -> 대비 향상 -> 선명도 향상)
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270148176-ca1447c8-f134-479d-a81b-516afeab024c.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270148176-ca1447c8-f134-479d-a81b-516afeab024c.png" width="80%">
   >
   ><hr width="80%">
   >
+  >
   >- 탐지영역 그리기
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270148665-562e0955-9174-41db-bd5c-593338f761b3.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270148665-562e0955-9174-41db-bd5c-593338f761b3.png" width="80%">
 
 <br>
 
 #### # 주변 재활용센터 안내
 
 <hr>
+
 
 ````
 가구, 가전제품 등 재활용이 가능한 대형 폐기물의 처리를 돕기 위함
@@ -184,7 +188,7 @@
 
 - 비회원 로그인시 사용자 위치정보를 수집하여 안내
 
-  ><img src="https://user-images.githubusercontent.com/119550105/270147379-3499e791-48bb-4133-a795-3af2d47dfa21.gif" width="80%">
+  ><img src="https://user-images.githubusercontent.com/119550105/270147373-e660ae92-c140-4527-aafc-94dbe4e83705.gif" width="80%">
 
 <br>
 
@@ -192,13 +196,14 @@
 
   >- 회원정보로 저장된 행정구역의 중심 좌표 추출(Kakao API)
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270147850-3c9c5457-c3b4-4976-9c52-274f18e8a350.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270147850-3c9c5457-c3b4-4976-9c52-274f18e8a350.png" width="80%">
   >
   ><hr width="80%">
   >
+  >
   >- 비로그인시 사용자의 위치좌표 수집(JavaScript)
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270147875-1e50e2e7-7d1a-4987-8e05-156c19bf93b3.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270147875-1e50e2e7-7d1a-4987-8e05-156c19bf93b3.png" width="80%">
 
 <br>
 
@@ -226,19 +231,21 @@
 
   >- 사용자의 위치정보와 지역별 재활용 안내 사이트 매칭(JavaScript)
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270148738-175d91d1-eeba-418a-9c7b-425b93e6cd4b.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270148738-175d91d1-eeba-418a-9c7b-425b93e6cd4b.png" width="80%">
   >
   ><hr width="80%">
   >
+  >
   >- URL정보를 저장하는 딕셔너리(JavaScript)
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270148792-e5a5313b-f3e7-4e7e-a29e-ebed9d818d45.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270148792-e5a5313b-f3e7-4e7e-a29e-ebed9d818d45.png" width="80%">
 
 <br>
 
 #### # 회원관리 및 게시판
 
 <hr>
+
 
 ```
 Django ORM 사용하여 CRUD기능 구현
@@ -252,15 +259,17 @@ Django ORM 사용하여 CRUD기능 구현
   >
   ><hr width="80%">
   >
+  >
   >- 회원정보 수정
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270149356-dd6ea7d6-f889-4f4b-895c-ce9c518ec2fd.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270149356-dd6ea7d6-f889-4f4b-895c-ce9c518ec2fd.png" width="80%">
   >
   ><hr width="80%">
   >
+  >
   >- models.py
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270149586-a5f8768b-9f4d-46d6-b050-6f5d5834718d.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270149586-a5f8768b-9f4d-46d6-b050-6f5d5834718d.png" width="80%">
 
 <br>
 
@@ -268,15 +277,17 @@ Django ORM 사용하여 CRUD기능 구현
 
   >- 게시물 페이지
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270149389-c8077515-2df6-4dd9-8173-963159691996.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270149389-c8077515-2df6-4dd9-8173-963159691996.png" width="80%">
   >
   ><hr width="80%">
+  >
   >
   >- 상세보기 / 댓글
   >
-  >  <img src="https://user-images.githubusercontent.com/119550105/270149535-6a4b1aba-05cb-4d23-bb80-9cca6d308b42.png" width="80%">
+  > <img src="https://user-images.githubusercontent.com/119550105/270149535-6a4b1aba-05cb-4d23-bb80-9cca6d308b42.png" width="80%">
   >
   ><hr width="80%">
+  >
   >
   >- models.py
   >
